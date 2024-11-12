@@ -5,18 +5,18 @@
 const express  = require('express');
 const app      = express();
 const port     = process.env.PORT || 8080;
-const MongoClient = require('mongodb').MongoClient
-const mongoose = require('mongoose');
-const passport = require('passport');
-const flash    = require('connect-flash');
+const MongoClient = require('mongodb').MongoClient; 
+const mongoose = require('mongoose'); 
+const passport = require('passport');  //talk to someone about how this works
+const flash    = require('connect-flash'); 
 
-const morgan       = require('morgan');
-const cookieParser = require('cookie-parser');
-const session      = require('express-session');
+const morgan       = require('morgan'); // log requests to the console
+const cookieParser = require('cookie-parser'); // read cookies
+const session      = require('express-session'); //no longer uses cookie parser
 
-var configDB = require('./config/database.js');
+const configDB = require('./config/database.js');
 
-var db
+let db;
 
 // configuration ===============================================================
 mongoose.connect(configDB.url, (err, database) => {
@@ -30,8 +30,8 @@ require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(json()); // get information from html forms
-app.use(urlencoded({ extended: true }));
+app.use(express.json()); // get information from html forms
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
 
