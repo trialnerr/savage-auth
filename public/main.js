@@ -1,5 +1,6 @@
-var thumbUp = document.getElementsByClassName("fa-thumbs-up");
-var trash = document.getElementsByClassName("fa-trash");
+const thumbUp = document.getElementsByClassName("fa-thumbs-up");
+const thumbDown = document.getElementsByClassName("fa-thumbs-down");
+const trash = document.getElementsByClassName("fa-trash");
 
 Array.from(thumbUp).forEach(function(element) {
       element.addEventListener('click', function(){
@@ -23,6 +24,32 @@ Array.from(thumbUp).forEach(function(element) {
           window.location.reload(true)
         })
       });
+});
+
+
+Array.from(thumbDown).forEach(function (element) {
+  element.addEventListener('click', function () {
+    console.log('thumbDown');
+    const name = this.parentNode.parentNode.childNodes[1].innerText;
+    const msg = this.parentNode.parentNode.childNodes[3].innerText;
+  
+    fetch('messages', {
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        msg: msg,
+        thumbDown: true,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        window.location.reload(true);
+      });
+  });
 });
 
 Array.from(trash).forEach(function(element) {
